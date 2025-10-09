@@ -1,50 +1,40 @@
----
-title: "Reading data from the web"
-author: "Rosie Kwon"
-date: "2025-10-09"
-output: github_document
----
+Reading data from the web
+================
+Rosie Kwon
+2025-10-09
 
-```{r, include = FALSE, message = FALSE, warning = FALSE}
-library(tidyverse)
-
-knitr::opts_chunk$set(
-	echo = TRUE,
-	warning = FALSE,
-  fig.width = 6,
-  fig.asp = .6,
-  out.width = "90%"
-)
-
-theme_set(theme_minimal() + theme(legend.position = "bottom"))
-
-options(
-  ggplot2.continuous.colour = "viridis",
-  ggplot2.continuous.fill = "viridis"
-)
-
-scale_colour_discrete = scale_colour_viridis_d
-scale_fill_discrete = scale_fill_viridis_d
+``` r
+library(rvest)
 ```
 
-```{r}
-library(rvest)
+    ## 
+    ## Attaching package: 'rvest'
+
+    ## The following object is masked from 'package:readr':
+    ## 
+    ##     guess_encoding
+
+``` r
 library(httr)
 ```
 
 Extracting tables
 
-```{r}
+``` r
 url = "http://samhda.s3-us-gov-west-1.amazonaws.com/s3fs-public/field-uploads/2k15StateFiles/NSDUHsaeShortTermCHG2015.htm"
 drug_use_html = read_html(url)
 
 drug_use_html
 ```
 
+    ## {html_document}
+    ## <html lang="en">
+    ## [1] <head>\n<link rel="P3Pv1" href="http://www.samhsa.gov/w3c/p3p.xml">\n<tit ...
+    ## [2] <body>\r\n\r\n<noscript>\r\n<p>Your browser's Javascript is off. Hyperlin ...
 
-This is an "easy" case
+This is an “easy” case
 
-```{r}
+``` r
 ndsuh_df = 
   drug_use_html |> 
   html_table() |> 
@@ -52,15 +42,22 @@ ndsuh_df =
   slice(-1) #the “note” at the bottom of the table appears in every column in the first row. We need to remove that
 ```
 
-Learning assessment: Create a data frame that contains the cost of living table for New York 
-```{r}
+Learning assessment: Create a data frame that contains the cost of
+living table for New York
+
+``` r
 nyc_url = "https://www.bestplaces.net/cost_of_living/city/new_york/new_york"
 nyc_cost_html = read_html(nyc_url)
 
 nyc_cost_html
 ```
 
-```{r}
+    ## {html_document}
+    ## <html xmlns="//www.w3.org/1999/xhtml">
+    ## [1] <head>\n<script async src="https://pagead2.googlesyndication.com/pagead/j ...
+    ## [2] <body><form method="post" action="/cost_of_living/city/new_york/new_york? ...
+
+``` r
 cost_living =
   nyc_cost_html |> 
   html_table(header = TRUE) |> 
@@ -69,14 +66,14 @@ cost_living =
 
 CSS Selectors
 
-```{r}
+``` r
 swm_html = 
   read_html("https://www.imdb.com/list/ls070150896/")
 ```
 
 Grab elements that I want
 
-```{r}
+``` r
 title_vec = 
   swm_html |> 
   html_elements(".ipc-title-link-wrapper .ipc-title__text--reduced") |> 
@@ -99,5 +96,3 @@ swm_df =
     runtime = runtime_vec
   )
 ```
-
-
