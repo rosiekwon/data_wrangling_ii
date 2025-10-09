@@ -159,6 +159,7 @@ BRFSS ; Behavioral Risk Factors: Selected Metropolitan Area Risk Trends
 brfss_2010 =  
   GET("https://chronicdata.cdc.gov/resource/acme-vg9e.csv",
       query = list("$limit" = 5000)) |> 
+  #By default, the CDC API limits data to the first 1000 rows.
   content("parsed")
 ```
 
@@ -188,5 +189,3 @@ pokemon[[4]]
     ## 
     ## [[1]]$url
     ## [1] "https://pokeapi.co/api/v2/pokemon-form/2/"
-
-By default, the CDC API limits data to the first 1000 rows.
