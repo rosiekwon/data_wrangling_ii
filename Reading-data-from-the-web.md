@@ -151,3 +151,42 @@ nyc_water_json =
   jsonlite::fromJSON() |>
   as_tibble()
 ```
+
+BRFSS ; Behavioral Risk Factors: Selected Metropolitan Area Risk Trends
+(SMART) County Prevalence Data
+
+``` r
+brfss_2010 =  
+  GET("https://chronicdata.cdc.gov/resource/acme-vg9e.csv",
+      query = list("$limit" = 5000)) |> 
+  content("parsed")
+```
+
+    ## Rows: 5000 Columns: 23
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Delimiter: ","
+    ## chr (16): locationabbr, locationdesc, class, topic, question, response, data...
+    ## dbl  (6): year, sample_size, data_value, confidence_limit_low, confidence_li...
+    ## lgl  (1): locationid
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+POKEMON
+
+``` r
+pokemon =
+  GET("https://pokeapi.co/api/v2/pokemon/2") |> 
+  content()
+
+pokemon[[4]]
+```
+
+    ## [[1]]
+    ## [[1]]$name
+    ## [1] "ivysaur"
+    ## 
+    ## [[1]]$url
+    ## [1] "https://pokeapi.co/api/v2/pokemon-form/2/"
+
+By default, the CDC API limits data to the first 1000 rows.
